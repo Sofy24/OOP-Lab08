@@ -62,33 +62,17 @@ public class BadIOGUI {
                 //final Files file = new Files();
                 try {
                     final List<String> lista = new ArrayList<>(Files.readAllLines(new File(PATH).toPath()));
-                    for(final String line : lista) {
+                    for (final String line : lista) {
                         System.out.println(line);
                     }
-                }
-                catch (IOException e1) {
+                } catch (IOException e1) {
                     JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                /*
-                 * This would be VERY BAD in a real application.
-                 * 
-                 * This makes the Event Dispatch Thread (EDT) work on an I/O
-                 * operation. I/O operations may take a long time, during which
-                 * your UI becomes completely unresponsive.
-                 */
-                /*try (PrintStream ps = new PrintStream(PATH)) {
-                    ps.print(rng.nextInt());
-                } catch (FileNotFoundException e1) {
-                    JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
-                    e1.printStackTrace();*/
              }
             });
-        
-        
         write.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                
                 try (PrintStream ps = new PrintStream(PATH)) {
                     ps.print(rng.nextInt());
                 } catch (FileNotFoundException e1) {
