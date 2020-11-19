@@ -5,14 +5,21 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import java.nio.file.Files;
+
 
 /**
  * This class is a simple application that writes a random number on a file.
@@ -37,16 +44,31 @@ public class BadIOGUI {
     public BadIOGUI() {
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
+        final JPanel canvas2 = new JPanel();
+        canvas2.setLayout(new BoxLayout(canvas2, BoxLayout.X_AXIS));
         final JButton write = new JButton("Write on file");
-        canvas.add(write, BorderLayout.CENTER);
+        canvas2.add(write, BorderLayout.CENTER);
+        final JButton read = new JButton("Read");
+        canvas2.add(read, BorderLayout.CENTER);
+        canvas.add(canvas2, BorderLayout.CENTER);
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
          * Handlers
          */
-        write.addActionListener(new ActionListener() {
-            @Override
+        read.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
+                System.out.println("String");
+                //final Files file = new Files();
+                try {
+                    final List<String> lista = new ArrayList<>(Files.readAllLines(new File(PATH).toPath()));
+                    for(final String line : lista) {
+                        System.out.println(line);
+                    }
+                }
+                catch (IOException e1) {
+                    JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 /*
                  * This would be VERY BAD in a real application.
                  * 
@@ -54,6 +76,19 @@ public class BadIOGUI {
                  * operation. I/O operations may take a long time, during which
                  * your UI becomes completely unresponsive.
                  */
+                /*try (PrintStream ps = new PrintStream(PATH)) {
+                    ps.print(rng.nextInt());
+                } catch (FileNotFoundException e1) {
+                    JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace();*/
+             }
+            });
+        
+        
+        write.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                
                 try (PrintStream ps = new PrintStream(PATH)) {
                     ps.print(rng.nextInt());
                 } catch (FileNotFoundException e1) {
@@ -87,6 +122,7 @@ public class BadIOGUI {
          * OK, ready to pull the frame onscreen
          */
         frame.setVisible(true);
+        frame.pack();
     }
 
     /**
