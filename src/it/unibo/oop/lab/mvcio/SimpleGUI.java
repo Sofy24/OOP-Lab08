@@ -25,19 +25,6 @@ public final class SimpleGUI {
 
     private final JFrame frame = new JFrame();
 
-    /*final JPanel canvas = new JPanel();
-        canvas.setLayout(new BorderLayout());
-        final JPanel canvas2 = new JPanel();
-        canvas2.setLayout(new BoxLayout(canvas2, BoxLayout.X_AXIS));
-        final JButton write = new JButton("Write on file");
-        canvas2.add(write, BorderLayout.CENTER);
-        final JButton read = new JButton("Read");
-        canvas2.add(read, BorderLayout.CENTER);
-        canvas.add(canvas2, BorderLayout.CENTER);
-        frame.setContentPane(canvas);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    */
     /*
      * Once the Controller is done, implement this class in such a way that:
      * 
