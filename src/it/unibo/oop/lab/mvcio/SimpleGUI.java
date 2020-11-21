@@ -1,9 +1,21 @@
 package it.unibo.oop.lab.mvcio;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+//import java.io.PrintStream;
+import java.io.IOException;
 
+//import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
 
 /**
  * A very simple program using a graphical interface.
@@ -13,6 +25,19 @@ public final class SimpleGUI {
 
     private final JFrame frame = new JFrame();
 
+    /*final JPanel canvas = new JPanel();
+        canvas.setLayout(new BorderLayout());
+        final JPanel canvas2 = new JPanel();
+        canvas2.setLayout(new BoxLayout(canvas2, BoxLayout.X_AXIS));
+        final JButton write = new JButton("Write on file");
+        canvas2.add(write, BorderLayout.CENTER);
+        final JButton read = new JButton("Read");
+        canvas2.add(read, BorderLayout.CENTER);
+        canvas.add(canvas2, BorderLayout.CENTER);
+        frame.setContentPane(canvas);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    */
     /*
      * Once the Controller is done, implement this class in such a way that:
      * 
@@ -37,6 +62,14 @@ public final class SimpleGUI {
      * builds a new {@link SimpleGUI}.
      */
     public SimpleGUI() {
+        final JPanel canvas = new JPanel();
+        canvas.setLayout(new BorderLayout());
+        final JTextArea testo = new JTextArea();
+        final JButton save = new JButton("Save");
+        canvas.add(testo, BorderLayout.CENTER);
+        canvas.add(save, BorderLayout.SOUTH);
+        frame.setContentPane(canvas);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
          * Make the frame half the resolution of the screen. This very method is
          * enough for a single screen setup. In case of multiple monitors, the
@@ -57,6 +90,23 @@ public final class SimpleGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+        frame.setVisible(true);
+        save.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                try  { 
+                    Controller.writeOnFile(testo.getText());
+                } catch (FileNotFoundException e1) {
+                    JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    System.out.println("IO eccezione");
+                    e1.printStackTrace();
+                }
+            }
+            });
     }
+    public static void main(final String... args) {
+        new SimpleGUI();
+     }
 
 }
