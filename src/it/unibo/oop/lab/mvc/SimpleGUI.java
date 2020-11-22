@@ -1,9 +1,23 @@
 package it.unibo.oop.lab.mvc;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import it.unibo.oop.lab.mvcio.Controller;
+
 
 /**
  * A very simple program using a graphical interface.
@@ -37,7 +51,22 @@ public final class SimpleGUI {
     /**
      * builds a new {@link SimpleGUI}.
      */
-    public SimpleGUI() {
+    public SimpleGUI(final ControllerImpl controller) {
+        final JPanel canvas = new JPanel();
+        final JPanel canvas2 = new JPanel();
+        final JTextField testo = new JTextField();
+        final JTextArea areatesto = new JTextArea();
+        final JButton print = new JButton("Print");
+        final JButton history = new JButton("Show history");
+        canvas.setLayout(new BorderLayout());
+        canvas2.setLayout(new BoxLayout(canvas2, BoxLayout.X_AXIS));
+        canvas.add(areatesto, BorderLayout.CENTER);
+        canvas.add(testo, BorderLayout.NORTH);
+        canvas.add(canvas2, BorderLayout.SOUTH);
+        canvas2.add(print, BoxLayout.X_AXIS);
+        canvas2.add(history, BoxLayout.X_AXIS);
+        frame.setContentPane(canvas);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         /*
          * Make the frame half the resolution of the screen. This very method is
@@ -60,6 +89,31 @@ public final class SimpleGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+        frame.setVisible(true);
+
+        print.addActionListener(new ActionListener() {
+
+            public void actionPerformed(final ActionEvent e) {
+                controller.setStr(testo.getText());
+                controller.printStr();
+            }
+            });
+
+        history.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                areatesto.setText("");
+                for (final String stradd : controller.getHistory()) {
+                    areatesto.append(stradd);
+                    areatesto.append("\n");
+                }
+            }
+            });
+
     }
 
+    public static void main(final String... args) {
+        new SimpleGUI(new ControllerImpl());
+     }
 }
+
+
