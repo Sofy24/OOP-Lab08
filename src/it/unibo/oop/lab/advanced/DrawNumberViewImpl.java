@@ -105,6 +105,9 @@ public final class DrawNumberViewImpl implements DrawNumberView {
         case YOU_WON:
             plainMessage(res.getDescription() + NEW_GAME);
             break;
+        case YOU_LOST:
+            JOptionPane.showMessageDialog(frame, res.getDescription() + NEW_GAME, "Lost", JOptionPane.WARNING_MESSAGE);
+            break;
         default:
             throw new IllegalStateException("Unexpected result: " + res);
         }
@@ -118,5 +121,11 @@ public final class DrawNumberViewImpl implements DrawNumberView {
 
     private void plainMessage(final String msg) {
         JOptionPane.showMessageDialog(frame, msg, "Result", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    @Override
+    public void displayError(final String error) {
+        JOptionPane.showMessageDialog(frame, error);
+
     }
 }
